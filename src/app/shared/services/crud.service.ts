@@ -4,6 +4,8 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';  // Firebase modules for Database, Data list and Single object
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
+//import 'rxjs/add/operator/toPromise';
 
 @Injectable({
   providedIn: 'root'
@@ -25,14 +27,28 @@ export class CrudService {
 
   // Create Note
   AddNote(notu: Notu) {
+    notu.dateTime = this.getTimestamp();
     return this.db.collection('notus-list').add(notu);
 
   }
 
   // Fetch Single Note Object
-  GetNote(id: string) {
-    return this.db.collection('notus-list').doc(id);
+  // GetNote(id: string): Observable<Notu> {
+  //   return new Observable((observer) => {
+  //     this.db.collection('notus-list').doc(id).subscribe(function(doc) => {
+  //       let data = doc.data();
+  //       observer.next({
+  //         id: doc.id,
+  //         title: data.title,
+  //         description: data.description,
+  //         dateTime: data.dateTime
+  //       });
+  //     });
+  //   });
+  // }
 
+    GetNote(id: string) {
+    return this.db.collection('notus-list').doc(id);
   }
 
   // Fetch Notes List
@@ -44,6 +60,7 @@ export class CrudService {
 
   // Update Note Object
   UpdateNote(id: string,notu: any) {
+    notu.dateTime = this.getTimestamp();
     return this.db.collection('notus-list').doc(id).update(notu)
   }  
 
@@ -51,6 +68,10 @@ export class CrudService {
   DeleteNote(id) { 
     console.log(id);
     return this.db.doc('notus-list/' + id).delete();
+  }
+  getTimestamp() {
+    var d = new Date();
+    return d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear() + " -" + d.getHours() + ":" + d.getMinutes()
   }
 
   

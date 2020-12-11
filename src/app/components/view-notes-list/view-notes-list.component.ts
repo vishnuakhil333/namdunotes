@@ -66,7 +66,13 @@ export class ViewNotesListComponent implements OnInit {
       this.crudApi.DeleteNote(id) // Using Delete Note API to delete Note.
       this.toastr.success('Note with ' + id + ' successfully deleted!'); // Alert message will show up when Note successfully deleted.
     }
+
   }
+
+  // readableDate(time) {
+  //   var d = new Date(time);
+  //   return d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear() + "-" + d.getHours() + ":" + d.getMinutes() ; 
+  // }
 
 
 

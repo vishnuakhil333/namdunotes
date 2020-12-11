@@ -6,6 +6,7 @@ import { CrudService } from 'src/app/shared/services/crud.service';
 import { Location } from '@angular/common';
 import { Notu } from 'src/app/shared/services/notu';
 import {map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -16,7 +17,7 @@ import {map} from 'rxjs/operators';
 export class EditNotesComponent implements OnInit {
   editForm: FormGroup;  // Define FormGroup to Note's edit form
   id;
-  note: Notu
+  note: Notu;
 
   constructor(
     private crudApi: CrudService,       // Inject CRUD API in constructor
@@ -34,9 +35,17 @@ export class EditNotesComponent implements OnInit {
     this.id = this.actRoute.snapshot.paramMap.get('id');  // Getting current component's id or information using ActivatedRoute service
     console.log(this.id);
     
-    this.crudApi.GetNote(this.id).valueChanges().subscribe(data => {
-      this.editForm.setValue(data);
-    })
+    // 3
+    // console.log(
+    //   this.crudApi.GetNote(this.id).subscribe(data => {
+    //       // id: data.doc.id,
+    //       this.note.title =  data.payload.doc.data().title,
+    //       this.note.description= data.payload.doc.data().description
+    //     //  console.log("data",data);
+    //     // this.editForm.setValue(data);
+        
+    //   })
+    // )
     // 2
     // this.crudApi.GetNote(id).get().subscribe(data => {
     //   this.note = data.map(e => {
@@ -59,10 +68,14 @@ export class EditNotesComponent implements OnInit {
     //   console.log(this.note);
     //   // this.editForm.setValue(note);
     // })
-    // this.crudApi.GetNote(id).get().subscribe(data => {
-    //   console.log(data)
-      // this.editForm.setValue(data)  // Using SetValue() method, It's a ReactiveForm's API to store intial value of reactive form 
-    // })
+    this.crudApi.GetNote(this.id).valueChanges().subscribe((data: Notu) => {
+      let formData =  {
+        'title': data.title,
+        'description': data.description
+      };
+      console.log(formData);
+      this.editForm.setValue(formData)  // Using SetValue() method, It's a ReactiveForm's API to store intial value of reactive form 
+    })
   }
 
   // Accessing form control using getters
@@ -73,14 +86,6 @@ export class EditNotesComponent implements OnInit {
   get description() {
     return this.editForm.get('description');
   }
-
-  // get email() {
-  //   return this.editForm.get('email');
-  // }
-
-  // get mobileNumber() {
-  //   return this.editForm.get('mobileNumber');
-  // }  
 
   // Contains Reactive Form logic
   updateNoteData() {

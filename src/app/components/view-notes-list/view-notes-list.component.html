@@ -37,6 +37,7 @@
             <th scope="col">Id</th>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
+            <th scope="col">Date and Time</th>
             <!-- <th scope="col">Email</th>
             <th scope="col">Mobile number</th> -->
             <th class="text-center" scope="col">Edit</th>
@@ -50,6 +51,8 @@
             <td>{{notu.id}}</td>
             <td>{{notu.title}}</td>
             <td>{{notu.description}}</td>
+            <!-- <td>{{readableDate(notu.dateTime)}}</td> -->
+            <td>{{notu.dateTime}}</td>
             <td class="text-center action-block">
               <i class="far fa-edit" [routerLink]="['/edit-notu',notu.id]"></i>
               <i class="far fa-trash-alt" (click)="deleteNote(notu.id)"></i></td>

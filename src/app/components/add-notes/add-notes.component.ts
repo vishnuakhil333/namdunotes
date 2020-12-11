@@ -45,8 +45,14 @@ export class AddNotesComponent implements OnInit {
 
   get lastName() {
     return this.noteForm.get('description');
-  }  
+  }
 
+  get dateTime() {
+    return this.noteForm.get('dateTime');
+  }
+  // set dateTime() {
+  //   this.noteForm.set
+  // }
   get email() {
     return this.noteForm.get('email');
   }
@@ -62,6 +68,7 @@ export class AddNotesComponent implements OnInit {
  
   submitNoteData() {
     this.crudApi.AddNote(this.noteForm.value); // Submit note data using CRUD API
+    console.log(this.noteForm.value);
     this.toastr.success(this.noteForm.controls['title'].value + ' successfully added!'); // Show success message when data is successfully submited
     this.router.navigate(['view-notu']);
     this.ResetForm();  // Reset form when clicked on reset button
